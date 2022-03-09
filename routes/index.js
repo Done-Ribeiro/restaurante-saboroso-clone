@@ -50,8 +50,8 @@ router.post('/reservations', function (req, res, next) {
   } else if (!req.body.time) {
     reservations.render(req, res, "Selecione a hora");
   } else {
-    console.log("OII");
     reservations.save(req.body).then(results => {
+      req.body = {};// aqui temos certeza que o form foi salvo, entao vamos limpar ele
       reservations.render(req, res, null, "Reserva realizada com sucesso!");
     }).catch(err => {
       reservations.render(req, res, err.message);
