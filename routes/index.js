@@ -29,7 +29,8 @@ router.get('/menus', function (req, res, next) {
       title: 'Menus - Restaurante Saboroso!',
       background: 'images/img_bg_1.jpg',
       h1: 'Saboreie nosso menu!',
-      menus: results
+      menus: results,
+      isHome: false
     });
   });
 });
