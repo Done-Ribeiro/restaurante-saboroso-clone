@@ -1,0 +1,13 @@
+<!-- MENSAGEM DE ERRO -->
+<% if (typeof error === "string") { %> 
+<div class="alert alert-danger">
+    <%= error %>
+</div>
+<% } %>
+
+<!-- MENSAGEM DE SUCESSO -->
+<% if (typeof success === "string") { %> 
+<div class="alert alert-success">
+    <%= success %>
+</div>
+<% } %>
