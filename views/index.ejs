@@ -1,29 +1,9 @@
-<!DOCTYPE HTML>
-<html>
+<%- include('inc/page-header') -%>
 
-<%- include("inc/head") -%>
+  <%- include('inc/content/menus') -%>
+  <%- include('inc/content/services') -%>
+  <%- include('inc/content/text') -%>
+  <%- include('inc/content/facts') -%>
+  <%- include('inc/content/subscribe') -%>
 
-<body>
-
-  <div class="gtco-loader"></div>
-
-  <div id="page">
-    <%- include('inc/header-menu') -%>
-    <%- include('inc/header-index') -%>
-
-    <%- include('inc/content/menus') -%>
-    <%- include('inc/content/services') -%>
-    <%- include('inc/content/text') -%>
-    <%- include('inc/content/facts') -%>
-    <%- include('inc/content/subscribe') -%>
-
-    <%- include('inc/footer') -%>
-
-  </div>
-
-  <%- include('inc/footer-gototop') -%> 
-  <%- include('inc/footer-scripts') -%>
-
-</body>
-
-</html>
+<%- include('inc/page-footer') -%>
