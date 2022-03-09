@@ -48,7 +48,8 @@ router.get('/services', function (req, res, next) {
   res.render('services', {
     title: 'Serviços - Restaurante Saboroso!',
     background: 'images/img_bg_1.jpg',
-    h1: 'É um prazer poder servir!'
+    h1: 'É um prazer poder servir!',
+    isHome: false
   });
 });
 
