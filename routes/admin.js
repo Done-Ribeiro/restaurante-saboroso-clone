@@ -6,6 +6,14 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
+  /**
+   * * agora o middleware vai criar esse objeto session pra gnt, como objeto
+   * * vai passar a existir uma chave chamada views
+   */
+  if (!req.session.views) req.session.views = 0;//? que se ela, nao existir, ela vai ser 0
+
+  console.log("SESSION: ", req.session.views++);
+
   res.render('admin/login');
 });
 
