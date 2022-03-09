@@ -18,7 +18,8 @@ router.get('/contacts', function (req, res, next) {
   res.render('contacts', {
     title: 'Contato - Restaurante Saboroso!',
     background: 'images/img_bg_3.jpg',
-    h1: 'Diga um oi!'
+    h1: 'Diga um oi!',
+    isHome: false
   });
 });
 
