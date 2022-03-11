@@ -18,7 +18,7 @@ router.use(function (req, res, next) {
 
 // add um middleware - para passar os menus para todas as rotas de '/admin/'
 router.use(function (req, res, next) {
-  req.menus = admin.getMenus();
+  req.menus = admin.getMenus(req);// passamos o req agora, para poder verificar qual rota esta ativa (com base no req.url)
   next();
 });
 
