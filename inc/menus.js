@@ -12,5 +12,25 @@ module.exports = {
         resolve(results);
       });
     });
+  },
+
+  save(fields, files) {
+    return new Promise((resolve, reject) => {
+      conn.query(`
+        INSERT INTO tb_menus (title, description, price, photo)
+        VALUES (?, ?, ?, ?)
+      `, [
+        fields.title,
+        fields.description,
+        fields.price,
+        `images/${files.photo.originalFilename}`
+      ], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
   }
 };
