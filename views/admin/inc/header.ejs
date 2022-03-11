@@ -94,42 +94,14 @@
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">MENU</li>
           <!-- Optionally, you can add icons to the links -->
-          <li class="active">
-            <a href="index.html">
-              <i class="fa fa-home"></i>
-              <span>Tela Inicial</span>
+          <% menus.forEach(function(menu) { %>
+          <li <% if (menu.active) { %> class="active"<% } %>>
+            <a href="<%= menu.href %>">
+              <i class="fa fa-<%= menu.icon %>"></i>
+              <span><%= menu.text %></span>
             </a>
           </li>
-          <li>
-            <a href="menus.html">
-              <i class="fa fa-cutlery"></i>
-              <span>Menu</span>
-            </a>
-          </li>
-          <li>
-            <a href="reservations.html">
-              <i class="fa fa-calendar-check-o"></i>
-              <span>Reservas</span>
-            </a>
-          </li>
-          <li>
-            <a href="contacts.html">
-              <i class="fa fa-comments"></i>
-              <span>Contatos</span>
-            </a>
-          </li>
-          <li>
-            <a href="users.html">
-              <i class="fa fa-users"></i>
-              <span>Usuários</span>
-            </a>
-          </li>
-          <li>
-            <a href="emails.html">
-              <i class="fa fa-envelope"></i>
-              <span>E-mails</span>
-            </a>
-          </li>
+          <% }); %>
         </ul>
         <!-- /.sidebar-menu -->
       </section>
