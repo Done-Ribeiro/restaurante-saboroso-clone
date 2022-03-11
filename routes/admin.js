@@ -2,6 +2,25 @@ var express = require('express');
 var users = require('./../inc/users');
 var router = express.Router();
 
+// configurando middleware (nivel de roteador) - autenticacao login,  rota -> '/login'
+router.use(function (req, res, next) {
+  /**
+   * ? o usuario ainda nao está logado, e precisamos deixar ele acessar a rota de login, para poder se logar
+   * * ['/login'].indexOf(req.url) -> vai verificar se a rota acessada, eh a de login
+   */
+  if (['/login'].indexOf(req.url) === -1 && !req.session.user) {// se não for a rota de login (ele nao achou o req.url, dentro do meu array) && a sessao user nao existir
+    res.redirect('/admin/login');// redireciona pro login
+  } else {
+    next();
+  }
+});
+
+// LOGOUT
+router.get('/logout', function(req, res, next) {
+  delete req.session.user;// apagar o usuario da sessao
+  res.redirect('/admin/login');
+});
+
 router.get('/', function (req, res, next) {
   res.render('admin/index');
 });
