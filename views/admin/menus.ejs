@@ -43,7 +43,7 @@
                 <td><%= row.title %></td>
                 <td><%= row.description %></td>
                 <td><%= row.price %></td>
-                <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
+                <td><button type="button" class="btn btn-xs btn-info btn-update"><i
                       class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                       class="fa fa-trash"></i> Excluir</button></td>
               </tr>
@@ -157,6 +157,36 @@
       .then(json => {
         window.location.reload();
       });
+  });
+
+  let formUpdate = document.querySelector('#modal-update form');
+
+  [...document.querySelectorAll('.btn-update')].forEach(btn => {
+    btn.addEventListener('click', e => {
+      let tr = e.path.find(el => {
+        return (el.tagName.toUpperCase() === 'TR');// quando clicar em editar, pega a TR, da sua row correspondente
+      });
+      
+      let data = JSON.parse(tr.dataset.row);// pegando os dados da TR, e convertendo de string -> json
+
+      // como os dados tem os mesmos nomes/atributos do nosso modal... podemos fazer um for in, pra preencher o modal (formulario de update)
+      for (let name in data) {
+        switch(name) {
+          case 'photo':
+            break;
+          default:
+            let input = formUpdate.querySelector(`[name=${name}]`);// primeiro, localiza o input correspondente (através da variavel name -> `[name=${name}]`)
+            // depois, verifica se esse input tem o campo, correspondente no formulario, e se tiver...
+            //! por exemplo, se vier propriedades como id, register -> nao tem input pra eles.. vai acabar dando erro
+            if (input) input.value = data[name];// depois, pega o valor desse input (value), e atribui o valor do nosso TR nele -> .value = data[name]
+            break;
+        }
+
+      }
+      
+      $('#modal-update').modal('show');// abrindo o modal, com jQuery
+
+    });
   });
   
 </script>
