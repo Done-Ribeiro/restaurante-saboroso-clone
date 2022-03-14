@@ -64,17 +64,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1.</td>
-                <td>Hcode</td>
-                <td>contato@hcode.com.br</td>
-                <td>2</td>
-                <td>1/1/2019</td>
-                <td>10:30</td>
+              <% data.forEach(row => { %>
+              <tr data-row="<%= JSON.stringify(row) %>">
+                <td><%= row.id %></td>
+                <td><%= row.name %></td>
+                <td><%= row.email %></td>
+                <td><%= row.people %></td>
+                <td><%= row.date %></td>
+                <td><%= row.time %></td>
                 <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
                       class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                       class="fa fa-trash"></i> Excluir</button></td>
               </tr>
+              <% }); %>
             </tbody>
           </table>
         </div>
