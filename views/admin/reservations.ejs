@@ -70,7 +70,7 @@
                 <td><%= row.name %></td>
                 <td><%= row.email %></td>
                 <td><%= row.people %></td>
-                <td><%= row.date %></td>
+                <td><%= moment(row.date).format('DD [de] MMMM [de] YYYY') %></td>
                 <td><%= row.time %></td>
                 <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
                       class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
