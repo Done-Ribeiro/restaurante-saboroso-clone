@@ -198,3 +198,24 @@
   </div>
 
 <%- include('inc/footer') -%>
+
+<script src="/js/hcode-formsave.js"></script>
+<script>
+
+  // CREATE
+  let formCreate = document.querySelector('#modal-create form');
+  formCreate.save().then(json => {// aqui esperamos o json da promise
+    window.location.reload();// no sucesso, faço o reload da pagina
+  }).catch(err => {
+    console.log(err);
+  });
+
+  // UPDATE
+  let formUpdate = document.querySelector('#modal-update form');
+  formUpdate.save().then(json => {// aqui esperamos o json da promise
+    window.location.reload();// no sucesso, faço o reload da pagina
+  }).catch(err => {
+    console.log(err);
+  });
+
+</script>
