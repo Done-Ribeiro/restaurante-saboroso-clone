@@ -142,7 +142,11 @@
 
 <%- include('inc/footer') -%>
 
+<script src="/js/hcode-filereader.js"></script>
 <script>
+
+  new HcodeFileReader('#modal-create [type=file]', '#modal-create img');
+  new HcodeFileReader('#modal-update [type=file]', '#modal-update img');
 
   let formCreate = document.querySelector('#modal-create form');
   formCreate.addEventListener('submit', e => {
@@ -173,6 +177,8 @@
       for (let name in data) {
         switch(name) {
           case 'photo':
+            formUpdate.querySelector('img').src = '/' + data[name];// so que, ele vai passar pra mim, images/nome_arquivo, e estamos dentro de /admin, a pasta images nao esta aqui,
+                                                                   // por isso concatenamos com um /, pra pegar a partir da raiz.
             break;
           default:
             let input = formUpdate.querySelector(`[name=${name}]`);// primeiro, localiza o input correspondente (através da variavel name -> `[name=${name}]`)
@@ -181,7 +187,6 @@
             if (input) input.value = data[name];// depois, pega o valor desse input (value), e atribui o valor do nosso TR nele -> .value = data[name]
             break;
         }
-
       }
       
       $('#modal-update').modal('show');// abrindo o modal, com jQuery
