@@ -130,9 +130,9 @@ router.delete('/reservations/:id', function (req, res, next) {
 
 router.get('/users', function (req, res, next) {
   users.getUsers().then(data => {
-    res.render('admin/users', admin.getParams(req), {
+    res.render('admin/users', admin.getParams(req, {
       data
-    });
+    }));
   });
 });
 
