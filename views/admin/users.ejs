@@ -39,7 +39,7 @@
                         <td><%= row.name %></td>
                         <td><%= row.password %></td>
                         <td>
-                            <button type="button" class="btn btn-xs btn-info"></i> Editar</button>&nbsp;
+                            <button type="button" class="btn btn-xs btn-info btn-update"></i> Editar</button>&nbsp;
                             <button type="button" class="btn btn-xs btn-warning btn-update" data-toggle="modal" data-target="#modal-update-password">
                                 <i class="fa fa-lock"></i> Alterar Senha</button>&nbsp;
                             <button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
@@ -156,3 +156,13 @@
   </div>
 
 <%- include('inc/footer') -%>
+<script src="/js/hcode-formsave.js"></script>
+<script src="/js/hcode-grid.js"></script>
+<script>
+
+  new HcodeGrid({
+    deleteUrl: '/admin/users/${data.id}',
+    deleteMsg: 'Deseja realmente excluir o usuário ${data.name}?'
+  });
+
+</script>
