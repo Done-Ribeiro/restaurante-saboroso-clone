@@ -221,6 +221,7 @@
     console.log(err);
   });
 
+  // UPDATE
   [...document.querySelectorAll('.btn-update')].forEach(btn => {
     btn.addEventListener('click', e => {
       let tr = e.path.find(el => {
@@ -243,6 +244,28 @@
       }
       
       $('#modal-update').modal('show');
+
+    });
+  });
+
+  // DELETE
+  [...document.querySelectorAll('.btn-delete')].forEach(btn => {
+    btn.addEventListener('click', e => {
+
+      let tr = e.path.find(el => {
+        return (el.tagName.toUpperCase() === 'TR');
+      });
+      let data = JSON.parse(tr.dataset.row);
+
+      if (confirm(`Deseja realmente excluir a reserva de ${data.name}?`)) {
+        fetch(`/admin/reservations/${data.id}`, {
+          method: 'DELETE'
+        })
+          .then(response => response.json())
+          .then(json => {
+            window.location.reload();
+          });
+      }
 
     });
   });
