@@ -72,7 +72,7 @@
                 <td><%= row.people %></td>
                 <td><%= moment(row.date).format('DD [de] MMMM [de] YYYY') %></td>
                 <td><%= row.time %></td>
-                <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
+                <td><button type="button" class="btn btn-xs btn-info btn-update"><i
                       class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                       class="fa fa-trash"></i> Excluir</button></td>
               </tr>
@@ -201,6 +201,7 @@
 
 <%- include('inc/footer') -%>
 
+<script src="/js/moment.min.js"></script>
 <script src="/js/hcode-formsave.js"></script>
 <script>
 
@@ -218,6 +219,32 @@
     window.location.reload();// no sucesso, faço o reload da pagina
   }).catch(err => {
     console.log(err);
+  });
+
+  [...document.querySelectorAll('.btn-update')].forEach(btn => {
+    btn.addEventListener('click', e => {
+      let tr = e.path.find(el => {
+        return (el.tagName.toUpperCase() === 'TR');
+      });
+      
+      let data = JSON.parse(tr.dataset.row);
+
+      for (let name in data) {
+        let input = formUpdate.querySelector(`[name=${name}]`);
+
+        switch(name) {
+          case 'date':
+            if (input) input.value = moment(data[name]).format('YYYY-MM-DD');// formatando data com moment, para o input carregar corretamente
+            break;
+          default:
+            if (input) input.value = data[name];
+            break;
+        }
+      }
+      
+      $('#modal-update').modal('show');
+
+    });
   });
 
 </script>
