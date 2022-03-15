@@ -8,6 +8,21 @@ class HcodeGrid {
     configs.listeners = Object.assign({
       afterUpdateClick: (e) => {
         $('#modal-update').modal('show');
+      },
+      afterDeleteClick: (e) => {
+        window.location.reload();
+      },
+      afterFormCreate: (e) => {
+        window.location.reload();
+      },
+      afterFormUpdate: (e) => {
+        window.location.reload();
+      },
+      afterFormCreateError: (e) => {
+        alert('Não foi possivel enviar o formulário.');
+      },
+      afterFormUpdateError: (e) => {
+        alert('Não foi possivel enviar o formulário.');
       }
     }, configs.listeners);
 
@@ -27,18 +42,18 @@ class HcodeGrid {
     // CREATE
     this.formCreate = document.querySelector(this.options.formCreate);// this -> dando acesso a toda a classe, ao formCreate
     this.formCreate.save().then(json => {// aqui esperamos o json da promise
-      window.location.reload();// no sucesso, faço o reload da pagina
+      this.fireEvent('afterFormCreate');
     }).catch(err => {
-      console.log(err);
+      this.fireEvent('afterFormCreateError');
     });
 
     // UPDATE
     //* this -> é necessário dar acesso a classe, pois o initBtn do uptade precisa referenciar ela para funcionar
     this.formUpdate = document.querySelector(this.options.formUpdate);
     this.formUpdate.save().then(json => {// aqui esperamos o json da promise
-      window.location.reload();// no sucesso, faço o reload da pagina
+      this.fireEvent('afterFormUpdate');
     }).catch(err => {
-      console.log(err);
+      this.fireEvent('afterFormUpdateError');
     });
   }
 
@@ -47,15 +62,20 @@ class HcodeGrid {
     if (typeof this.options.listeners[name] === 'function') this.options.listeners[name].apply(this, args);
   }
 
+  getTrData(e) {
+    let tr = e.path.find(el => {
+      return (el.tagName.toUpperCase() === 'TR');
+    });
+
+    return JSON.parse(tr.dataset.row);
+  }
+
   initButtons() {
     // UPDATE
     [...document.querySelectorAll(this.options.btnUpdate)].forEach(btn => {
       btn.addEventListener('click', e => {
-        let tr = e.path.find(el => {
-          return (el.tagName.toUpperCase() === 'TR');
-        });
 
-        let data = JSON.parse(tr.dataset.row);
+        let data = this.getTrData(e);
 
         for (let name in data) {
           let input = this.formUpdate.querySelector(`[name=${name}]`);
@@ -79,10 +99,9 @@ class HcodeGrid {
     [...document.querySelectorAll(this.options.btnDelete)].forEach(btn => {
       btn.addEventListener('click', e => {
 
-        let tr = e.path.find(el => {
-          return (el.tagName.toUpperCase() === 'TR');
-        });
-        let data = JSON.parse(tr.dataset.row);
+        this.fireEvent('beforeDeleteClick');
+
+        let data = this.getTrData(e);
 
         /**
          * ! para fazermos uma template string passada por parametro (como string), voltar a ser uma template string, aqui precisamos fazer um eval, da nossa string
@@ -94,7 +113,7 @@ class HcodeGrid {
           })
             .then(response => response.json())
             .then(json => {
-              window.location.reload();
+              this.fireEvent('afterDeleteClick');
             });
         }
 
