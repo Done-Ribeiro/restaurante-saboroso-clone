@@ -78,16 +78,7 @@ class HcodeGrid {
         let data = this.getTrData(e);
 
         for (let name in data) {
-          let input = this.formUpdate.querySelector(`[name=${name}]`);
-
-          switch (name) {
-            case 'date':
-              if (input) input.value = moment(data[name]).format('YYYY-MM-DD');// formatando data com moment, para o input carregar corretamente
-              break;
-            default:
-              if (input) input.value = data[name];
-              break;
-          }
+          this.options.onUpdateLoad(this.formUpdate, name, data);
         }
 
         this.fireEvent('afterUpdateClick', [e]);

@@ -144,76 +144,28 @@
 
 <script src="/js/hcode-filereader.js"></script>
 <script src="/js/hcode-formsave.js"></script>
+<script src="/js/hcode-grid.js"></script>
 <script>
 
   new HcodeFileReader('#modal-create [type=file]', '#modal-create img');
   new HcodeFileReader('#modal-update [type=file]', '#modal-update img');
 
-  // CREATE
-  let formCreate = document.querySelector('#modal-create form');
-  formCreate.save().then(json => {// aqui esperamos o json da promise
-    window.location.reload();// no sucesso, faço o reload da pagina
-  }).catch(err => {
-    console.log(err);
-  });
+  new HcodeGrid({
+    deleteUrl: '/admin/menus/${data.id}',
+    deleteMsg: 'Deseja realmente excluir o menu ${data.title}?',
+    onUpdateLoad: (form, name, data) => {// formulario, nome_campo, dados
+      let input = form.querySelector(`[name=${name}]`);
 
-  // UPDATE
-  let formUpdate = document.querySelector('#modal-update form');
-  formUpdate.save().then(json => {// aqui esperamos o json da promise
-    window.location.reload();// no sucesso, faço o reload da pagina
-  }).catch(err => {
-    console.log(err);
-  });
-
-  // DELETE
-  [...document.querySelectorAll('.btn-delete')].forEach(btn => {
-    btn.addEventListener('click', e => {
-
-      let tr = e.path.find(el => {
-        return (el.tagName.toUpperCase() === 'TR');
-      });
-      let data = JSON.parse(tr.dataset.row);
-
-      if (confirm(`Deseja realmente excluir o menu ${data.title}?`)) {
-        fetch(`/admin/menus/${data.id}`, {
-          method: 'DELETE'
-        })
-          .then(response => response.json())
-          .then(json => {
-            window.location.reload();
-          });
+      switch (name) {
+        case 'photo':
+          form.querySelector('img').src = '/' + data[name];// so que, ele vai passar pra mim, images/nome_arquivo, e estamos dentro de /admin, a pasta images nao esta aqui,
+                                                                // por isso concatenamos com um /, pra pegar a partir da raiz.
+          break;
+        default:
+          if (input) input.value = data[name];
+          break;
       }
-
-    });
-  });
-
-  [...document.querySelectorAll('.btn-update')].forEach(btn => {
-    btn.addEventListener('click', e => {
-      let tr = e.path.find(el => {
-        return (el.tagName.toUpperCase() === 'TR');// quando clicar em editar, pega a TR, da sua row correspondente
-      });
-      
-      let data = JSON.parse(tr.dataset.row);// pegando os dados da TR, e convertendo de string -> json
-
-      // como os dados tem os mesmos nomes/atributos do nosso modal... podemos fazer um for in, pra preencher o modal (formulario de update)
-      for (let name in data) {
-        switch(name) {
-          case 'photo':
-            formUpdate.querySelector('img').src = '/' + data[name];// so que, ele vai passar pra mim, images/nome_arquivo, e estamos dentro de /admin, a pasta images nao esta aqui,
-                                                                   // por isso concatenamos com um /, pra pegar a partir da raiz.
-            break;
-          default:
-            let input = formUpdate.querySelector(`[name=${name}]`);// primeiro, localiza o input correspondente (através da variavel name -> `[name=${name}]`)
-            // depois, verifica se esse input tem o campo, correspondente no formulario, e se tiver...
-            //! por exemplo, se vier propriedades como id, register -> nao tem input pra eles.. vai acabar dando erro
-            if (input) input.value = data[name];// depois, pega o valor desse input (value), e atribui o valor do nosso TR nele -> .value = data[name]
-            break;
-        }
-      }
-      
-      $('#modal-update').modal('show');// abrindo o modal, com jQuery
-
-    });
+    }
   });
   
 </script>
