@@ -40,9 +40,6 @@ class HcodeGrid {
     // UPDATE
     [...document.querySelectorAll(this.options.btnUpdate)].forEach(btn => {
       btn.addEventListener('click', e => {
-
-        this.fireEvent('beforeUpdateClick', [e]);
-
         let tr = e.path.find(el => {
           return (el.tagName.toUpperCase() === 'TR');
         });
@@ -62,7 +59,6 @@ class HcodeGrid {
           }
         }
 
-        $('#modal-update').modal('show');
         this.fireEvent('afterUpdateClick', [e]);
 
       });
