@@ -39,8 +39,8 @@
                         <td><%= row.name %></td>
                         <td><%= row.password %></td>
                         <td>
-                            <button type="button" class="btn btn-xs btn-info btn-update"></i> Editar</button>&nbsp;
-                            <button type="button" class="btn btn-xs btn-warning btn-update" data-toggle="modal" data-target="#modal-update-password">
+                            <button type="button" class="btn btn-xs btn-info btn-update"><i class="fa fa-pencil"></i> Editar</button>&nbsp;
+                            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modal-update-password">
                                 <i class="fa fa-lock"></i> Alterar Senha</button>&nbsp;
                             <button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
                     </tr>
@@ -162,7 +162,12 @@
 
   new HcodeGrid({
     deleteUrl: '/admin/users/${data.id}',
-    deleteMsg: 'Deseja realmente excluir o usuário ${data.name}?'
+    deleteMsg: 'Deseja realmente excluir o usuário ${data.name}?',
+    listeners: {
+      buttonClick: (btn, data, e) => {// botao, dados, evento
+        console.log('buttonClick', btn, data, e);
+      }
+    }
   });
 
 </script>
