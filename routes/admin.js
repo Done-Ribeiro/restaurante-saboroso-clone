@@ -144,7 +144,7 @@ router.post('/users', function (req, res, next) {
   });
 });
 
-router.delete('/users:id', function (req, res, next) {
+router.delete('/users/:id', function (req, res, next) {
   users.delete(req.params.id).then(results => {
     res.send(results);
   }).catch(err => {
