@@ -33,16 +33,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>Hcode</td>
-                        <td>contato@hcode.com.br</td>
+                    <% data.forEach(row => { %>
+                    <tr data-row="<%= JSON.stringify(row) %>">
+                        <td><%= row.id %></td>
+                        <td><%= row.name %></td>
+                        <td><%= row.password %></td>
                         <td>
                             <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#modal-update"><i class="fa fa-pencil"></i> Editar</button>&nbsp;
                             <button type="button" class="btn btn-xs btn-warning btn-update" data-toggle="modal" data-target="#modal-update-password">
                                 <i class="fa fa-lock"></i> Alterar Senha</button>&nbsp;
                             <button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
                     </tr>
+                    <% }); %>
                 </tbody>
             </table>
         </div>
