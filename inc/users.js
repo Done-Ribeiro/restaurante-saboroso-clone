@@ -107,6 +107,32 @@ module.exports = {
         }
       });
     });
+  },
+
+  changePassword(req) {
+    return new Promise((resolve, reject) => {
+      if (!req.fields.password) {// se, senha eh vazia
+        reject('Preencha a senha.');
+      } else if (req.fields.password !== req.fields.passwordConfirm) {// se, senhas nao conferem
+        reject('Confirme a senha corretamente.');
+      } else {// senhas validas
+        conn.query(`
+          UPDATE tb_users
+          SET
+            password = ?
+          WHERE id = ?
+        `, [
+          req.fields.password,
+          req.fields.id
+        ], (err, results) => {
+          if (err) {
+            reject(err.message);
+          } else {
+            resolve(results);
+          }
+        });
+      }
+    });
   }
 
 };

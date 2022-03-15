@@ -37,10 +37,10 @@
                     <tr data-row="<%= JSON.stringify(row) %>">
                         <td><%= row.id %></td>
                         <td><%= row.name %></td>
-                        <td><%= row.password %></td>
+                        <td><%= row.email %></td>
                         <td>
                             <button type="button" class="btn btn-xs btn-info btn-update"><i class="fa fa-pencil"></i> Editar</button>&nbsp;
-                            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modal-update-password">
+                            <button type="button" class="btn btn-xs btn-warning">
                                 <i class="fa fa-lock"></i> Alterar Senha</button>&nbsp;
                             <button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
                     </tr>
@@ -59,7 +59,8 @@
   <div class="modal fade" id="modal-update-password">
     <div class="modal-dialog">
       <div class="modal-content" style="border-top: 3px solid #f39c12;">
-        <form method="post">
+        <!-- quando for enviar o formulario de alterar senha, precisamos add o action, que estava sem -->
+        <form method="post" action="/admin/users/password-change">
           <input type="hidden" name="id">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -165,9 +166,23 @@
     deleteMsg: 'Deseja realmente excluir o usuário ${data.name}?',
     listeners: {
       buttonClick: (btn, data, e) => {// botao, dados, evento
-        console.log('buttonClick', btn, data, e);
+        /**
+         * ! como o input id do nosso formulario, esta como hidden, ou seja escondido
+         * ! precisamos procurar pelo id, e mandar pro formulario, o valor
+         */
+        document.querySelector('#modal-update-password form [name=id]').value = data.id;
+
+        // como no nosso caso, so temos 1 botao, diferente do padrao.. vamos abrir o modal direto
+        $('#modal-update-password').modal('show');
       }
     }
+  });
+
+  // ALTERAR SENHA
+  document.querySelector('#modal-update-password form').save().then(results => {
+    // window.location.reload();
+  }).catch(err => {
+    alert(err.error);
   });
 
 </script>
