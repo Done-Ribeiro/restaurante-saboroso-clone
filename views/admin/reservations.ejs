@@ -203,71 +203,12 @@
 
 <script src="/js/moment.min.js"></script>
 <script src="/js/hcode-formsave.js"></script>
+<script src="/js/hcode-grid.js"></script>
 <script>
 
-  // CREATE
-  let formCreate = document.querySelector('#modal-create form');
-  formCreate.save().then(json => {// aqui esperamos o json da promise
-    window.location.reload();// no sucesso, faço o reload da pagina
-  }).catch(err => {
-    console.log(err);
-  });
-
-  // UPDATE
-  let formUpdate = document.querySelector('#modal-update form');
-  formUpdate.save().then(json => {// aqui esperamos o json da promise
-    window.location.reload();// no sucesso, faço o reload da pagina
-  }).catch(err => {
-    console.log(err);
-  });
-
-  // UPDATE
-  [...document.querySelectorAll('.btn-update')].forEach(btn => {
-    btn.addEventListener('click', e => {
-      let tr = e.path.find(el => {
-        return (el.tagName.toUpperCase() === 'TR');
-      });
-      
-      let data = JSON.parse(tr.dataset.row);
-
-      for (let name in data) {
-        let input = formUpdate.querySelector(`[name=${name}]`);
-
-        switch(name) {
-          case 'date':
-            if (input) input.value = moment(data[name]).format('YYYY-MM-DD');// formatando data com moment, para o input carregar corretamente
-            break;
-          default:
-            if (input) input.value = data[name];
-            break;
-        }
-      }
-      
-      $('#modal-update').modal('show');
-
-    });
-  });
-
-  // DELETE
-  [...document.querySelectorAll('.btn-delete')].forEach(btn => {
-    btn.addEventListener('click', e => {
-
-      let tr = e.path.find(el => {
-        return (el.tagName.toUpperCase() === 'TR');
-      });
-      let data = JSON.parse(tr.dataset.row);
-
-      if (confirm(`Deseja realmente excluir a reserva de ${data.name}?`)) {
-        fetch(`/admin/reservations/${data.id}`, {
-          method: 'DELETE'
-        })
-          .then(response => response.json())
-          .then(json => {
-            window.location.reload();
-          });
-      }
-
-    });
+  new HcodeGrid({
+    deleteUrl: '/admin/reservations/${data.id}',
+    deleteMsg: 'Deseja realmente excluir a reserva de ${data.name}?'
   });
 
 </script>
