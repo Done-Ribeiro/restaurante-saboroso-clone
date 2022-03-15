@@ -1,11 +1,22 @@
 class HcodeGrid {
   constructor(configs) {
-    //! definindo o que ja vem por padrao no config, sobrescrevemos o que for de novo no Object.assign, e o resultado da mesclagem, colocamos no options
+
+    /**
+     * ! o assign nao é recursivo, ou seja, ele nao sobrescreve objs que tem dentro dele
+     * * por isso precisamos sobreescrever o listener do config 
+     */
+    configs.listeners = Object.assign({
+      afterUpdateClick: (e) => {
+        $('#modal-update').modal('show');
+      }
+    }, configs.listeners);
+
+    // definindo o que ja vem por padrao no config, sobrescrevemos o que for de novo no Object.assign, e o resultado da mesclagem, colocamos no options
     this.options = Object.assign({
       formCreate: '#modal-create form',
       formUpdate: '#modal-update form',
       btnUpdate: '.btn-update',
-      btnDelete: '.btn-delete',
+      btnDelete: '.btn-delete'
     }, configs);
 
     this.initForms();
