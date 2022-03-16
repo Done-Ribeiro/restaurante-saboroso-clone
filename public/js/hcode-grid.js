@@ -47,19 +47,25 @@ class HcodeGrid {
   initForms() {
     // CREATE
     this.formCreate = document.querySelector(this.options.formCreate);// this -> dando acesso a toda a classe, ao formCreate
-    this.formCreate.save().then(json => {// aqui esperamos o json da promise
-      this.fireEvent('afterFormCreate');
-    }).catch(err => {
-      this.fireEvent('afterFormCreateError');
+    this.formCreate.save({
+      success: () => {
+        this.fireEvent('afterFormCreate');
+      },
+      failure: () => {
+        this.fireEvent('afterFormCreateError');
+      }
     });
 
     // UPDATE
     //* this -> é necessário dar acesso a classe, pois o initBtn do uptade precisa referenciar ela para funcionar
     this.formUpdate = document.querySelector(this.options.formUpdate);
-    this.formUpdate.save().then(json => {// aqui esperamos o json da promise
-      this.fireEvent('afterFormUpdate');
-    }).catch(err => {
-      this.fireEvent('afterFormUpdateError');
+    this.formUpdate.save({
+      success: () => {
+        this.fireEvent('afterFormCreateError');
+      },
+      failure: () => {
+        this.fireEvent('afterFormUpdateError');
+      }
     });
   }
 
@@ -116,7 +122,7 @@ class HcodeGrid {
           if (e.target.classList.contains(this.options.btnUpdate)) {
             this.btnUpdateClick(e);
 
-          // DELETE
+            // DELETE
           } else if (e.target.classList.contains(this.options.btnDelete)) {
             this.btnDeleteClick(e);
 
