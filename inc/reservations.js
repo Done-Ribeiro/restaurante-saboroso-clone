@@ -63,24 +63,30 @@ module.exports = {
   },
 
   getReservations(page, dtstart, dtend) {
-    if (!page) page = 1;
+    return new Promise((resolve, reject) => {
 
-    let params = [];
+      if (!page) page = 1;
+      let params = [];
 
-    // verifico se foi passado as datas como parametro, e se foi.. faço o push no params
-    if (dtstart && dtend) params.push(dtstart, dtend);
+      if (dtstart && dtend) params.push(dtstart, dtend);// verifico se foi passado as datas como parametro, e se foi.. faço o push no params
 
-    let pag = new Pagination(
-      `
+      let pag = new Pagination(
+        `
         SELECT SQL_CALC_FOUND_ROWS *
         FROM tb_reservations
         ${(dtstart && dtend) ? 'WHERE date BETWEEN ? AND ?' : ''}
         ORDER BY name LIMIT ?, ?
       `,
-      params
-    );
+        params
+      );
 
-    return pag.getPage(page);// aqui passo o numero da pagina que quero buscar
+      pag.getPage(page).then(data => {
+        resolve({
+          data,
+          links: pag.getNavigation()
+        })
+      });
+    });
   },
 
   delete(id) {
