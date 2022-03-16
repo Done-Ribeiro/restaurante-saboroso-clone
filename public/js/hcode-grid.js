@@ -47,26 +47,34 @@ class HcodeGrid {
   initForms() {
     // CREATE
     this.formCreate = document.querySelector(this.options.formCreate);// this -> dando acesso a toda a classe, ao formCreate
-    this.formCreate.save({
-      success: () => {
-        this.fireEvent('afterFormCreate');
-      },
-      failure: () => {
-        this.fireEvent('afterFormCreateError');
-      }
-    });
+
+    //! bugfix
+    if (this.formCreate) {// agora so cria o restante, se o formulario existir
+      this.formCreate.save({
+        success: () => {
+          this.fireEvent('afterFormCreate');
+        },
+        failure: () => {
+          this.fireEvent('afterFormCreateError');
+        }
+      });
+    }
 
     // UPDATE
     //* this -> é necessário dar acesso a classe, pois o initBtn do uptade precisa referenciar ela para funcionar
     this.formUpdate = document.querySelector(this.options.formUpdate);
-    this.formUpdate.save({
-      success: () => {
-        this.fireEvent('afterFormCreateError');
-      },
-      failure: () => {
-        this.fireEvent('afterFormUpdateError');
-      }
-    });
+
+    //! bugfix
+    if (this.formUpdate) {// agora so cria o restante, se o formulario existir
+      this.formUpdate.save({
+        success: () => {
+          this.fireEvent('afterFormCreateError');
+        },
+        failure: () => {
+          this.fireEvent('afterFormUpdateError');
+        }
+      });
+    }
   }
 
   fireEvent(name, args) {
