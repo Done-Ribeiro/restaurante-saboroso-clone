@@ -1,4 +1,5 @@
 var conn = require("./db");
+var Pagination = require('./../inc/Pagination');
 
 module.exports = {
   render(req, res, error, success) {// recebendo o req, para pegar os dados preenchidos pelo usuario quando enviou o form | error -> mensagem de erro, vem uma string
@@ -61,17 +62,16 @@ module.exports = {
     });
   },
 
-  getReservations() {
-    return new Promise((resolve, reject) => {
-      conn.query(`
-        SELECT * FROM tb_reservations ORDER BY date DESC
-        `, (err, results) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(results);
-      });
-    });
+  getReservations(page) {
+    if (!page) page = 1;
+
+    let pag = new Pagination(
+      `
+        SELECT SQL_CALC_FOUND_ROWS * FROM tb_reservations ORDER BY name LIMIT ?, ?
+      `
+    );
+
+    return pag.getPage(page);// aqui passo o numero da pagina que quero buscar
   },
 
   delete(id) {
