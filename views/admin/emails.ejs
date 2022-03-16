@@ -31,11 +31,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>contato@hcode.com.br</td>
+                            <% data.forEach(row => { %>
+                            <tr data-row="<%= JSON.stringify(row) %>">
+                                <td><%= row.id %></td>
+                                <td><%= row.email %></td>
                                 <td><button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
                             </tr>
+                            <% }); %>
                         </tbody>
                     </table>
                 </div>
@@ -48,3 +50,13 @@
     <!-- /.content-wrapper -->
 
 <%- include('inc/footer') -%>
+<script src="/js/hcode-formsave.js"></script>
+<script src="/js/hcode-grid.js"></script>
+<script>
+
+  new HcodeGrid({
+    deleteUrl: '/admin/emails/${data.id}',
+    deleteMsg: 'Você tem certeza que quer excluir o email ${data.email}?'
+  });
+
+</script>
