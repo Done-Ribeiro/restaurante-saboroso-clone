@@ -89,12 +89,28 @@ class Pagination {
       nrend = this.getCurrentPage() + parseInt(limitPagesNav / 2);
     }
 
+    // BUTTON - PREVIOUS PAGE
+    if (this.getCurrentPage() > 1) {
+      links.push({
+        text: '«',
+        href: '?' + this.getQueryString(Object.assign({}, params, { page: this.getCurrentPage() -1 }))
+      })
+    }
+
     for (let x = nrstart; x <= nrend; x++) {
       links.push({
         text: x,// valor do texto do botao (numero de pagina)
         href: '?' + this.getQueryString(Object.assign({}, params, { page: x })),// primeiro um {}, sobreescrevemos ele com os params, depois com o obj final (que iremos converter em uma queryString)
         active: (x === this.getCurrentPage())// se for, a pagina atual, active = true
       });
+    }
+
+    // BUTTON - NEXT PAGE
+    if (this.getCurrentPage() < this.getTotalPages()) {
+      links.push({
+        text: '»',
+        href: '?' + this.getQueryString(Object.assign({}, params, { page: this.getCurrentPage() + 1 }))
+      })
     }
 
     return links;
