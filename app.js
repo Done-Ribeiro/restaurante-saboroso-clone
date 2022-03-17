@@ -24,19 +24,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var http = http.Server(app);// sobreescrevendo o próprio http
 var io = socket(http);// variavel io vai chamar o socket, encima do mesmo protocolo http, que ele tbm precisa
 
-//! quando tiver uma nova conexao no socket
+//* quando tiver uma nova conexao no socket
 io.on('connection', function (socket) {
   console.log('Novo usuário conectado');
 
-  // mandamos um evento, quando o cliente estiver conectado
-  /**
-   * ! se fizermos um emit encima do io, io.emit() => estamos avisando todos os usuarios que estão conectados no websocket
-   * * se fizermos um socket.emit() => avisa apenas o usuario, que acabou de se conectar aqui (e nao todos os usuários)
-   */
-  io.emit('reservations update', {
-    date: new Date()// servidor, mandando a data p/ navegador
-  })
 });
+
+/**
+ * ! só vai chamar esses 2 requires, depois que tiver o io
+ * ? e vamos passar o io agora
+ * * (para ter acesso ao io, do outro lado)
+ * ! porem agora o router, precisa ser uma fn, que recebe o io, e vai retornar o router
+ */
+var indexRouter = require('./routes/index')(io);
+var adminRouter = require('./routes/admin')(io);
 
 // middleware para formidable
 app.use(function (req, res, next) {

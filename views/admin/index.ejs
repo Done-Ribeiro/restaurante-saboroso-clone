@@ -25,7 +25,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Reservas</span>
-              <span class="info-box-number"><%= data.nrreservations %></span>
+              <span class="info-box-number" id="nrreservations"><%= data.nrreservations %></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -40,7 +40,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Contatos</span>
-              <span class="info-box-number"><%= data.nrcontacts %></span>
+              <span class="info-box-number" id="nrcontacts"><%= data.nrcontacts %></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -59,7 +59,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Menu</span>
-              <span class="info-box-number"><%= data.nrmenus %></span>
+              <span class="info-box-number" id="nrmenus"><%= data.nrmenus %></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -74,7 +74,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Usuários</span>
-              <span class="info-box-number"><%= data.nrusers %></span>
+              <span class="info-box-number" id="nrusers"><%= data.nrusers %></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -93,12 +93,26 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
+  // Fn para atualizar o dashboard
+  function refreshDashboard() {
+    // vai carregar o nosso dash
+    fetch('/admin/dashboard')
+      .then(response => response.json())
+      .then(json => {
+        // vai atualizar os dados na tela
+        document.querySelector('#nrreservations').innerHTML = json.nrreservations;
+        document.querySelector('#nrcontacts').innerHTML = json.nrcontacts;
+        document.querySelector('#nrmenus').innerHTML = json.nrmenus;
+        document.querySelector('#nrusers').innerHTML = json.nrusers;
+      });
+  }
+
   // SOCKET
   let socket = io();// chama essa fn, que vem da biblioteca, e agora podemos ouvir, um evento que vem do servidor
 
-  // reservations update -> inventamos um estado com este nome, e vamos determinar oq acontece com ele
-  socket.on('reservations update', function(data) {
-    console.log('recebi o evento', data);
+  //! dashboard update -> inventamos um estado com este nome, e vamos determinar oq acontece com ele
+  socket.on('dashboard update', function() {
+    refreshDashboard();
   });
 
 </script>
