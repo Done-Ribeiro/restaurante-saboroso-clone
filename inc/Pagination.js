@@ -69,7 +69,7 @@ class Pagination {
     let nrstart = 0;
     let nrend = 0;
 
-    if (this.getTotalPages() < limitPagesNav) {// ex.: total_de_paginas: 3 | limite_total_paginas: 5
+    if (this.getTotalPages() < limitPagesNav) {// esse if, valida o minimo de 'botoes' necessários as páginas, (ex.: total_de_paginas: 3, limite_total_paginas: 5), sera 3 'botoes'... [1][2][3]
       limitPagesNav = this.getTotalPages();
     }
 
@@ -85,13 +85,13 @@ class Pagination {
 
     //* estou no - meio das paginas 
     } else {
-      nrstart = this.currentPage() - parseInt(limitPagesNav / 2);
-      nrend = this.currentPage() + parseInt(limitPagesNav / 2);
+      nrstart = this.getCurrentPage() - parseInt(limitPagesNav / 2);
+      nrend = this.getCurrentPage() + parseInt(limitPagesNav / 2);
     }
 
     for (let x = nrstart; x <= nrend; x++) {
       links.push({
-        text: x,
+        text: x,// valor do texto do botao (numero de pagina)
         href: `?page=${x}`
       });
     }
