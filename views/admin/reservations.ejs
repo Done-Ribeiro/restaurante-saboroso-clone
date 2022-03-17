@@ -236,8 +236,35 @@
     data: {
       labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
       datasets: [{
-        data: [3, 5, 6, 2, 5, 2]
+        data: [3, 5, 6, 2, 5, 2],// dados
+        label: 'Reservas',// titilo do gráfico
+        backgroundColor: 'rgb(54, 162, 235)',// cor do gráfico
+        borderColor: 'rgb(54, 162, 235)',// cor da borda
+        fill: true,// preencher 'fundo' gráfico?
+        pointBackgroundColor: '#FFF'// cor do ponto, de intersecção dos dados
       }]
+    },
+    options: {
+      tooltips: {
+        mode: 'index',
+        intersect: false// false: acompanha o mouse, seguindo; true: so mostra quando o mouse passa encima do ponto de intersecção do dado
+      },
+      scales: {
+        xAxes: [{//* eixo X
+          display: true,
+          scaleLabel: {
+            display: true,// habilita legenda do eixo X (por padrao é false)
+            labelString: 'Mês'// label do eixo X
+          }
+        }],
+        yAxes: [{//* eixo Y
+          display: true,
+          scaleLabel: {
+            display: true,// habilita legenda do eixo Y (por padrao é false)
+            labelString: 'Reservas'// label do eixo Y
+          }
+        }]
+      }
     }
   });
 
