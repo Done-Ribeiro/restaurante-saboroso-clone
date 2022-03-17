@@ -11,13 +11,15 @@ var formidable = require('formidable');
 
 var http = require('http');// agora, com uso de websocket, precisaremos mexer no http, pois o servidor web, sera criado a partir do http
 var socket = require('socket.io');// socket.io
+var bodyParser = require('body-parser');//! bugfix - login
 
 var path = require('path');
 
-var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
-
 var app = express();
+
+//! bugfix - login
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 var http = http.Server(app);// sobreescrevendo o próprio http
 var io = socket(http);// variavel io vai chamar o socket, encima do mesmo protocolo http, que ele tbm precisa
