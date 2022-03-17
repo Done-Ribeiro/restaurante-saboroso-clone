@@ -130,8 +130,8 @@ router.delete('/menus/:id', function (req, res, next) {// :id -> recebe um numer
 
 router.get('/reservations', function (req, res, next) {
 
-  let start = (req.query.start) ? req.query.start : moment().subtract(1, 'year').format('YYY-MM-DD');// se nao tiver data inicial, volta exatamente 1 ano, a partir de hj
-  let end = (req.query.end) ? req.query.end : moment().format('YYY-MM-DD');// se nao foi passado data final, passa a data atual
+  let start = (req.query.start) ? req.query.start : moment().subtract(1, 'year').format('YYYY-MM-DD');// se nao tiver data inicial, volta exatamente 1 ano, a partir de hj
+  let end = (req.query.end) ? req.query.end : moment().format('YYYY-MM-DD');// se nao foi passado data final, passa a data atual
 
   reservations.getReservations(
     req.query.page,// pagina
