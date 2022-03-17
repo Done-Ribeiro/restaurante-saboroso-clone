@@ -134,9 +134,7 @@ router.get('/reservations', function (req, res, next) {
   let end = (req.query.end) ? req.query.end : moment().format('YYYY-MM-DD');// se nao foi passado data final, passa a data atual
 
   reservations.getReservations(
-    req.query.page,// pagina
-    req.query.start,// data inicial
-    req.query.end// data final
+    req// agora passamos somente o req, pq mudou a implementacao
   ).then(pag => {
     res.render('admin/reservations', admin.getParams(req, {
       date: {

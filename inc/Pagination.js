@@ -92,12 +92,23 @@ class Pagination {
     for (let x = nrstart; x <= nrend; x++) {
       links.push({
         text: x,// valor do texto do botao (numero de pagina)
-        href: `?page=${x}`,
+        href: '?' + this.getQueryString(Object.assign({}, params, { page: x })),// primeiro um {}, sobreescrevemos ele com os params, depois com o obj final (que iremos converter em uma queryString)
         active: (x === this.getCurrentPage())// se for, a pagina atual, active = true
       });
     }
 
     return links;
+  }
+
+  getQueryString(params) {// metodo para pegar parametros da URL
+    let queryString = [];
+
+    for (let name in params) {
+      queryString.push(`${name}=${params[name]}`);// ex.: page = (page[x]) = x ==> `page: 3`
+    }
+
+    //! converter um json, no formato queryString
+    return queryString.join('&');// no final, juntamos todos os itens do array, com & comercial.. exemplo -> ?start=2021-03-17&, aqui poderemos colocar o page por exemplo
   }
 
 }

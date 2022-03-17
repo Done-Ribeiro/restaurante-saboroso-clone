@@ -62,8 +62,12 @@ module.exports = {
     });
   },
 
-  getReservations(page, dtstart, dtend) {
+  getReservations(req) {
     return new Promise((resolve, reject) => {
+
+      let page = req.query.page;
+      let dtstart = req.query.dtstart;
+      let dtend = req.query.dtend;
 
       if (!page) page = 1;
       let params = [];
@@ -83,7 +87,7 @@ module.exports = {
       pag.getPage(page).then(data => {
         resolve({
           data,
-          links: pag.getNavigation()
+          links: pag.getNavigation(req.query)// passando todas as variaveis que tem no query (page, dtstart, dtend), pro nosso getNavigation()
         })
       });
     });
