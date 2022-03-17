@@ -31,8 +31,6 @@ module.exports = function (io) {
       contacts.render(req, res, "Digite a mensagem");
     } else {
       contacts.save(req.body).then(results => {
-        console.log({ results });
-
         req.body = {};
         io.emit('dashboard update');
         contacts.render(req, res, null, "Contato enviado com sucesso!")
