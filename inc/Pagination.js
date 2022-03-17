@@ -92,7 +92,8 @@ class Pagination {
     for (let x = nrstart; x <= nrend; x++) {
       links.push({
         text: x,// valor do texto do botao (numero de pagina)
-        href: `?page=${x}`
+        href: `?page=${x}`,
+        active: (x === this.getCurrentPage())// se for, a pagina atual, active = true
       });
     }
 

@@ -84,7 +84,7 @@
         <div class="box-footer clearfix">
           <ul class="pagination pagination-sm no-margin pull-right">
             <% links.forEach(link => { %>
-            <li class="active"><a href="<%= link.href %>"><%= link.text %></a></li>
+            <li <% if (link.active) { %>class="active"<% } %>><a href="<%= link.href %>"><%= link.text %></a></li>
             <% }); %>
           </ul>
         </div>
@@ -209,7 +209,7 @@
     deleteMsg: 'Deseja realmente excluir a reserva de ${data.name}?',
     onUpdateLoad: (form, name, data) => {// formulario, nome_campo, dados
       let input = form.querySelector(`[name=${name}]`);
-
+      
       switch (name) {
         case 'date':
           if (input) input.value = moment(data[name]).format('YYYY-MM-DD');// formatando data com moment, para o input carregar corretamente
