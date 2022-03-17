@@ -1,5 +1,6 @@
 var conn = require("./db");
 var Pagination = require('./../inc/Pagination');
+var moment = require('moment');
 
 module.exports = {
   render(req, res, error, success) {// recebendo o req, para pegar os dados preenchidos pelo usuario quando enviou o form | error -> mensagem de erro, vem uma string
@@ -105,6 +106,44 @@ module.exports = {
           reject(err);
         } else {
           resolve(results);
+        }
+      });
+    });
+  },
+
+  chart(req) {
+    return new Promise((resolve, reject) => {
+      conn.query(`
+        SELECT
+          CONCAT(YEAR(date), '-', MONTH(date)) AS date,
+          COUNT(*) AS total,
+          SUM(people) / COUNT(*) AS avg_people
+        FROM tb_reservations
+        WHERE
+          date BETWEEN ? AND ?
+        GROUP BY YEAR(date), MONTH(date)
+        ORDER BY YEAR(date) DESC, MONTH(date) DESC;
+      `, [
+        req.query.start,
+        req.query.end
+      ], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          // preciso de um array só para os meses, e um só para os valores
+          let months = [];
+          let values = [];
+
+          results.forEach(row => {
+            months.push(moment(row.date).format('MMM YYYY'));// row.date, date, pq foi o alias dado na query do bds | usamos o moment.js pra formatar para exemplo.: Janeiro 2018
+            values.push(row.total);// o mesmo aqui, esse total é o alias da query
+          });
+
+          // se der certo, resolvemos a promise, passando os dois arrays para o obj do resolve
+          resolve({
+            months,
+            values
+          });
         }
       });
     });

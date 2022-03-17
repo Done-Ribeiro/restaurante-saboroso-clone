@@ -233,17 +233,7 @@
   // CHARTS
   let grafico = new Chart(document.querySelector('#chart').getContext('2d'), {// 1 param - canvas | 2 param - parametros de configuracao
     type: 'line',
-    data: {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-      datasets: [{
-        data: [3, 5, 6, 2, 5, 2],// dados
-        label: 'Reservas',// titilo do gráfico
-        backgroundColor: 'rgb(54, 162, 235)',// cor do gráfico
-        borderColor: 'rgb(54, 162, 235)',// cor da borda
-        fill: true,// preencher 'fundo' gráfico?
-        pointBackgroundColor: '#FFF'// cor do ponto, de intersecção dos dados
-      }]
-    },
+    data: {},
     options: {
       tooltips: {
         mode: 'index',
@@ -267,5 +257,26 @@
       }
     }
   });
+
+  // gráfico
+  fetch(`/admin/reservations/chart${window.location.search}`)
+    .then(response => response.json())
+    .then(json => {
+      // povoando o gráfico
+      grafico.data = {
+        labels: json.months,//** labels
+        datasets: [{
+          data: json.values,//** dados
+          label: 'Reservas',// titulo do gráfico
+          backgroundColor: 'rgb(54, 162, 235)',// cor do gráfico
+          borderColor: 'rgb(54, 162, 235)',// cor da borda
+          fill: true,// preencher 'fundo' gráfico?
+          pointBackgroundColor: '#FFF'// cor do ponto, de intersecção dos dados
+        }]
+      };
+
+      //! depois que muda as informações, precisa forçar que o gráfico redesenhe o canvas
+      grafico.update();
+    });
 
 </script>

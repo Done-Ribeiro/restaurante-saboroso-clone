@@ -148,6 +148,16 @@ router.get('/reservations', function (req, res, next) {
   });
 });
 
+router.get('/reservations/chart', function (req, res, next) {
+  // precisamos formatar as datas (inicial, final), vamos sobreescrever as variaveis
+  req.query.start = (req.query.start) ? req.query.start : moment().subtract(1, 'year').format('YYYY-MM-DD');// se nao tiver data inicial, volta exatamente 1 ano, a partir de hj
+  req.query.end = (req.query.end) ? req.query.end : moment().format('YYYY-MM-DD');// se nao foi passado data final, passa a data atual
+
+  reservations.chart(req).then(chartData => {
+    res.send(chartData);
+  });
+});
+
 router.post('/reservations', function (req, res, next) {
   reservations.save(req.fields, req.files).then(results => {
     res.send(results);
