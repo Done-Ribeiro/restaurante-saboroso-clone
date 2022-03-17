@@ -8,12 +8,24 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);// aqui ja passamos o construtor, passando o session
 
 var formidable = require('formidable');
+
+var http = require('http');// agora, com uso de websocket, precisaremos mexer no http, pois o servidor web, sera criado a partir do http
+var socket = require('socket.io');// socket.io
+
 var path = require('path');
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 
 var app = express();
+
+var http = http.Server(app);// sobreescrevendo o próprio http
+var io = socket(http);// variavel io vai chamar o socket, encima do mesmo protocolo http, que ele tbm precisa
+
+//! quando tiver uma nova conexao no socket
+io.on('connection', function (socket) {
+  console.log('Novo usuário conectado');
+});
 
 // middleware para formidable
 app.use(function (req, res, next) {
@@ -52,8 +64,6 @@ app.use(session({
 }));
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -76,4 +86,7 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+//! agora precisamos dizer que o http, esta ouvindo a porta 3000, uma vez que tiramos ele do padrão (que era no app)
+http.listen(3000, function () {
+  console.log('servidor em execução...');
+});
