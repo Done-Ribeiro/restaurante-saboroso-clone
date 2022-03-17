@@ -25,6 +25,15 @@ var io = socket(http);// variavel io vai chamar o socket, encima do mesmo protoc
 //! quando tiver uma nova conexao no socket
 io.on('connection', function (socket) {
   console.log('Novo usuário conectado');
+
+  // mandamos um evento, quando o cliente estiver conectado
+  /**
+   * ! se fizermos um emit encima do io, io.emit() => estamos avisando todos os usuarios que estão conectados no websocket
+   * * se fizermos um socket.emit() => avisa apenas o usuario, que acabou de se conectar aqui (e nao todos os usuários)
+   */
+  io.emit('reservations update', {
+    date: new Date()// servidor, mandando a data p/ navegador
+  })
 });
 
 // middleware para formidable

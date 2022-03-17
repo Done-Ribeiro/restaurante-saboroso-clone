@@ -89,3 +89,16 @@
   <!-- /.content-wrapper -->
 
 <%- include('inc/footer') -%>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+  // SOCKET
+  let socket = io();// chama essa fn, que vem da biblioteca, e agora podemos ouvir, um evento que vem do servidor
+
+  // reservations update -> inventamos um estado com este nome, e vamos determinar oq acontece com ele
+  socket.on('reservations update', function(data) {
+    console.log('recebi o evento', data);
+  });
+
+</script>
